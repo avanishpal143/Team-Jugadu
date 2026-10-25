@@ -1,0 +1,20 @@
+:root {
+  --color-primary-navy: #10182A;
+  --color-secondary-navy: #17233B;
+  --color-brand-orange: #FF6B0B;
+  --color-orange-hover: #E95800;
+  --color-pale-orange: #FFF2E8;
+  --color-main-white: #FFFFFF;
+  --color-off-white: #FAFBFD;
+  --color-light-grey: #F1F4F8;
+  --color-card-surface: #FFFFFF;
+  --color-primary-text: #172033;
+  --color-secondary-text: #586477;
+  --color-muted-text: #778194;
+  --color-border: #E3E8EF;
+  --color-subtle-orange-border: #FFD2B3;
+
+  --max-w-content: 1280px;
+  --max-w-wide: 1400px;
+  --max-w-reading: 760px;
+}

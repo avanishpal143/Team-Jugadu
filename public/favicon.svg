@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <rect width="48" height="48" rx="10" fill="#10182A"/>
+  <text x="8" y="27" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">TJ</text>
+  <circle cx="34" cy="22" r="4.5" fill="#FF6B0B"/>
+  <rect x="8" y="33" width="32" height="3" rx="1.5" fill="#FF6B0B"/>
+</svg>

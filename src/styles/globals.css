@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import './design-tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #FAFBFD;
+    color: #10182A;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background-color: #FF6B0B;
+    color: #FFFFFF;
+  }
+
+  :focus-visible {
+    outline: 2px solid #FF6B0B;
+    outline-offset: 3px;
+  }
+}
+
+/* 
+ * CRITICAL TYPOGRAPHY SAFETY RULES
+ * These rules enforce generous, un-collapsible line-height across all headings.
+ */
+h1, .heading-h1 {
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: #10182A;
+  font-weight: 800 !important;
+  line-height: 1.22 !important;
+  letter-spacing: -0.035em !important;
+}
+
+h2, .heading-h2 {
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: #10182A;
+  font-weight: 800 !important;
+  line-height: 1.32 !important;
+  letter-spacing: -0.025em !important;
+}
+
+h3, .heading-h3 {
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: #10182A;
+  font-weight: 700 !important;
+  line-height: 1.38 !important;
+  letter-spacing: -0.02em !important;
+}
+
+h4, .heading-h4 {
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+}
+
+/* 3D Perspective & Motion Utilities */
+.card-3d-hover {
+  transform: perspective(1000px) translateZ(0);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+
+.card-3d-hover:hover {
+  transform: perspective(1000px) translateY(-7px) translateZ(10px);
+}
+
+.glow-orange {
+  box-shadow: 0 10px 30px -5px rgba(255, 107, 11, 0.22);
+}
+
+.glow-orange-lg {
+  box-shadow: 0 20px 45px -10px rgba(255, 107, 11, 0.35);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .card-3d-hover:hover {
+    transform: none !important;
+  }
+}
+
+/* Reusable Editorial UI components */
+@layer components {
+  .section-container {
+    @apply max-w-content mx-auto px-5 sm:px-8 lg:px-12 w-full;
+  }
+
+  .section-container-wide {
+    @apply max-w-wide mx-auto px-4 sm:px-6 lg:px-8 w-full;
+  }
+
+  .eyebrow-pill {
+    @apply inline-flex items-center gap-2 px-3.5 py-1 text-xs font-semibold tracking-wider uppercase rounded-full border border-orange-border/80 bg-orange-pale/80 text-navy font-mono;
+  }
+
+  .text-editorial-lead {
+    @apply text-base sm:text-lg text-ink-secondary leading-relaxed font-normal;
+  }
+}
