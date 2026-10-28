@@ -1,132 +1,255 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { siteConfig } from '../../data/siteConfig';
-import { ArrowRight, Mail, Calendar, Clock, Sparkles } from 'lucide-react';
+import { ArrowRight, Mail, Calendar, Clock, CheckCircle2, MessageCircle, Send } from 'lucide-react';
+import { motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
+import { SpotlightCard } from '../ui/SpotlightCard';
 
 export const DiscoveryCTA: React.FC = () => {
+  const [stage, setStage] = useState<'Idea' | 'MVP' | 'Launched' | 'Growing'>('Idea');
+  const [need, setNeed] = useState<string>('Website');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
+  const [budget, setBudget] = useState('₹60k - ₹1L');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    } catch {
+      // ignore
+    }
+
+    const subject = encodeURIComponent(`Discovery Sprint Request: ${name} (${company || 'New Startup'})`);
+    const body = encodeURIComponent(
+      `Hi TeamJugadu,\n\nI want to schedule a 30-min discovery sprint.\n\nFounder: ${name}\nWork Email: ${email}\nCompany: ${company}\nCurrent Stage: ${stage}\nNeed: ${need}\nBudget Range: ${budget}\n\nPlease share your calendar invite for our scoping call.\n\nThanks!`
+    );
+    window.open(`mailto:${siteConfig.contactEmail}?subject=${subject}&body=${body}`, '_blank');
+  };
+
+  const whatsappMessage = encodeURIComponent(
+    `Hi TeamJugadu! I'm interested in discussing a 14-day launch sprint for my startup. Stage: ${stage}, Scope: ${need}.`
+  );
+  const whatsappUrl = `https://wa.me/917982436893?text=${whatsappMessage}`;
+
   return (
-    <section id="contact" className="py-20 sm:py-28 lg:py-32 bg-[#FFFFFF] border-b border-[#E3E8EF]">
-      <div className="max-w-content mx-auto px-5 sm:px-8 lg:px-12">
+    <section id="contact" className="py-24 sm:py-32 lg:py-36 bg-[#F8FAFC] border-b border-slate-200/80 relative overflow-hidden">
+      <div className="max-w-content mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
         
-        {/* Primary Conversion Card (Deep Navy Editorial Card with Orange Accents) */}
-        <div className="relative rounded-3xl bg-navy text-white p-8 sm:p-14 lg:p-16 overflow-hidden shadow-2xl border border-slate-800">
-          
-          {/* Subtle Graphic Element: Idea taking shape into finished digital experience */}
-          <div 
-            aria-hidden="true" 
-            className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-orange/30 via-orange/10 to-transparent rounded-full blur-3xl pointer-events-none" 
-          />
-          <div 
-            aria-hidden="true" 
-            className="absolute -bottom-20 -left-20 w-80 h-80 bg-navy-800/60 rounded-full blur-2xl pointer-events-none" 
-          />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <SpotlightCard theme="orange" className="p-8 sm:p-14 lg:p-16 border border-orange-200/80 shadow-[0_20px_70px_rgba(255,107,11,0.12)]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             
-            {/* Left Copy & Conversion Actions (7 cols) */}
-            <div className="lg:col-span-7 space-y-6 sm:space-y-7">
-              
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900 border border-slate-700 text-orange font-mono text-xs font-semibold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Primary Conversion Point</span>
-              </div>
+            {/* Left Column (5 cols) */}
+            <div className="lg:col-span-5 space-y-6">
+              <span className="text-xs font-mono font-medium tracking-widest uppercase text-orange bg-orange-50 px-3 py-1 rounded-full border border-orange-200 inline-block">
+                Primary Conversion Point
+              </span>
 
-              <h2 className="text-3xl sm:text-5xl font-extrabold font-heading text-white mb-3">
-                Tell Us What <br className="hidden sm:inline" />
-                <span className="text-orange">You're Building.</span>
+              <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-[#0A1128] tracking-[-0.03em] leading-tight">
+                Tell us what <br />
+                <span className="text-gradient-orange">you&apos;re building.</span>
               </h2>
 
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
-                Whether you're validating an idea, preparing for launch or improving an existing business, let's understand what you need and define the right next step.
+              <p className="text-base text-slate-600 leading-relaxed">
+                Whether you&apos;re validating an early concept, preparing for a funding round, or revamping an existing digital asset, let&apos;s map out your exact 14-day sprint scope.
               </p>
 
-              <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-700/80 flex items-start gap-3.5 text-xs sm:text-sm text-slate-300">
-                <Clock className="w-5 h-5 text-orange flex-shrink-0 mt-0.5" />
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3 text-xs sm:text-sm text-slate-700">
+                <Clock className="w-4 h-4 text-orange flex-shrink-0 mt-0.5" />
                 <p className="leading-relaxed">
-                  <strong className="text-white font-bold">Focused 30-Minute Discovery Call:</strong> We discuss your business goals, target audience, technical requirements, and possible scope. No sales pressure.
+                  <strong className="text-[#0A1128] font-medium">Focused 30-Minute Discovery Call:</strong> We analyze your business goals, target audience, and architecture requirements. Zero aggressive sales pitches.
                 </p>
               </div>
 
-              {/* Conversion Buttons (Strictly NO contact form) */}
-              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              {/* Instant WhatsApp */}
+              <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                    <MessageCircle className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-medium text-[#0A1128] block">Need Quick Answers?</span>
+                    <span className="text-[11px] text-slate-500 font-mono">Chat directly with lead architect</span>
+                  </div>
+                </div>
                 <a
-                  href={siteConfig.discoveryBookingUrl}
-                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-sm sm:text-base font-bold rounded-xl bg-[#FF6B0B] text-white hover:bg-[#E95800] transition-all duration-200 shadow-lg hover:shadow-orange-strong group"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-mono font-semibold transition-colors shadow-sm"
                 >
-                  <span>Book Your Free Discovery Call</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                </a>
-
-                <a
-                  href={`mailto:${siteConfig.contactEmail}?subject=Project%20Inquiry%20-%20TeamJugadu`}
-                  className="inline-flex items-center justify-center gap-2.5 px-6 py-4 text-sm sm:text-base font-semibold rounded-xl bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-slate-500 transition-colors"
-                >
-                  <Mail className="w-4 h-4 text-orange" />
-                  <span>Email TeamJugadu</span>
+                  WhatsApp
                 </a>
               </div>
 
-              {/* Direct email display */}
-              <div className="pt-2 text-xs text-slate-400 font-mono flex flex-wrap items-center gap-x-4 gap-y-1">
-                <span>Verified Direct Channel:</span>
-                <a href={`mailto:${siteConfig.contactEmail}`} className="text-orange hover:underline font-bold">
+              {/* Direct Email */}
+              <div className="pt-1 text-xs text-slate-500 font-mono flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-slate-400" />
+                <span>Direct Lead: </span>
+                <a href={`mailto:${siteConfig.contactEmail}`} className="text-[#0A1128] font-semibold hover:underline">
                   {siteConfig.contactEmail}
                 </a>
-                <span>·</span>
-                <a href={`mailto:${siteConfig.secondaryEmail}`} className="text-slate-300 hover:underline">
-                  {siteConfig.secondaryEmail}
-                </a>
               </div>
-
             </div>
 
-            {/* Right Bespoke Specimen: Consultation Structure (5 cols) */}
-            <div className="lg:col-span-5">
-              <div className="rounded-3xl bg-slate-900/95 border border-slate-700/90 p-6 sm:p-8 space-y-4 shadow-xl">
-                <div className="flex items-center justify-between pb-3.5 border-b border-slate-800">
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                    <Calendar className="w-4 h-4 text-orange" />
-                    <span>Discovery Agenda</span>
+            {/* Right Column: Intake Form (7 cols) */}
+            <div className="lg:col-span-7 bg-white p-7 sm:p-9 rounded-2xl border border-slate-200 shadow-[0_10px_35px_rgba(0,35,75,0.06)]">
+              {submitted ? (
+                <div className="py-12 text-center space-y-4">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-6 h-6" />
                   </div>
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800 font-bold">
-                    Free / 30 Minutes
-                  </span>
+                  <h3 className="text-xl font-bold font-heading text-[#0A1128]">
+                    Discovery Request Sent!
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#0A1128]">{name}</strong>. Our lead architect will review your {stage} requirements and respond within 4 business hours.
+                  </p>
+                  <div className="pt-2">
+                    <a
+                      href={siteConfig.discoveryBookingUrl}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0A1128] text-white hover:bg-slate-800 text-xs font-semibold font-mono shadow-md"
+                    >
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>Pick a Calendar Slot Immediately</span>
+                    </a>
+                  </div>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 text-xs font-mono">
+                    <span className="text-slate-600 font-medium">Sprint Intake</span>
+                    <span className="text-slate-400">Confidential</span>
+                  </div>
 
-                <div className="space-y-3 text-xs text-slate-300">
-                  <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start gap-3">
-                    <span className="font-mono text-orange font-bold text-sm">01</span>
-                    <div>
-                      <p className="font-bold text-white text-xs sm:text-sm">Understand Founder Goal</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">What is the immediate milestone: early validation, demo pitch, or revenue storefront?</p>
+                  {/* Stage Selector */}
+                  <div>
+                    <label className="text-xs font-mono text-slate-600 block mb-1.5 font-medium">
+                      Current Startup Stage:
+                    </label>
+                    <div className="grid grid-cols-4 gap-1.5">
+                      {(['Idea', 'MVP', 'Launched', 'Growing'] as const).map(s => (
+                        <button
+                          type="button"
+                          key={s}
+                          onClick={() => setStage(s)}
+                          className={`py-2 px-2.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                            stage === s 
+                              ? 'bg-[#0A1128] text-white font-semibold shadow-sm' 
+                              : 'bg-slate-50 border border-slate-200 text-slate-600 hover:text-[#0A1128] hover:bg-slate-100'
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start gap-3">
-                    <span className="font-mono text-orange font-bold text-sm">02</span>
-                    <div>
-                      <p className="font-bold text-white text-xs sm:text-sm">Identify Key Friction</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">Where is the current website or brand falling short in communicating credibility?</p>
+                  {/* Primary Requirement */}
+                  <div>
+                    <label className="text-xs font-mono text-slate-600 block mb-1.5 font-medium">
+                      What are you building?
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                      {['Website', 'Branding', 'E-commerce', 'MVP Scope'].map(n => (
+                        <button
+                          type="button"
+                          key={n}
+                          onClick={() => setNeed(n)}
+                          className={`py-2 px-2.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                            need === n 
+                              ? 'bg-[#0A1128] text-white font-semibold shadow-sm' 
+                              : 'bg-slate-50 border border-slate-200 text-slate-600 hover:text-[#0A1128] hover:bg-slate-100'
+                          }`}
+                        >
+                          {n}
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 flex items-start gap-3">
-                    <span className="font-mono text-orange font-bold text-sm">03</span>
+                  {/* Inputs */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div>
-                      <p className="font-bold text-white text-xs sm:text-sm">Scope &amp; Budget Fit</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">Align requirements with our defined milestone packages and delivery timeline.</p>
+                      <label className="text-xs font-mono text-slate-600 block mb-1 font-medium">Your Name *</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={name} 
+                        onChange={e => setName(e.target.value)} 
+                        placeholder="e.g. Rahul Sharma"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[#0A1128] placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-orange focus:bg-white transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-mono text-slate-600 block mb-1 font-medium">Work Email *</label>
+                      <input 
+                        type="email" 
+                        required 
+                        value={email} 
+                        onChange={e => setEmail(e.target.value)} 
+                        placeholder="founder@startup.com"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[#0A1128] placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-orange focus:bg-white transition-colors"
+                      />
                     </div>
                   </div>
-                </div>
 
-                <div className="pt-3 border-t border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
-                  <span>Founder Call Lead: Senior Architect</span>
-                  <span className="text-orange font-bold">No Sales Handoff</span>
-                </div>
-              </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-mono text-slate-600 block mb-1 font-medium">Company / Startup</label>
+                      <input 
+                        type="text" 
+                        value={company} 
+                        onChange={e => setCompany(e.target.value)} 
+                        placeholder="e.g. Nexus Tech"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[#0A1128] placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-orange focus:bg-white transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-mono text-slate-600 block mb-1 font-medium">Estimated Budget</label>
+                      <select 
+                        value={budget} 
+                        onChange={e => setBudget(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[#0A1128] text-xs sm:text-sm focus:outline-none focus:border-orange focus:bg-white transition-colors"
+                      >
+                        <option value="₹35k - ₹50k">₹35,000 – ₹50,000 (Idea Launch)</option>
+                        <option value="₹60k - ₹1L">₹60,000 – ₹1,00,000 (Growth Launch)</option>
+                        <option value="₹1.25L - ₹2.5L+">₹1,25,000 – ₹2,50,000+ (Scale / MVP)</option>
+                        <option value="Custom Enterprise">Custom Enterprise</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Submit */}
+                  <div className="pt-2">
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange to-orange-hover text-white font-semibold font-mono text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-orange-soft hover:shadow-orange-glow transition-all"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Book Free 30-Min Discovery Sprint</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </motion.button>
+                    <p className="text-[11px] text-center text-slate-500 font-mono mt-2">
+                      Zero commitment. 100% confidential.
+                    </p>
+                  </div>
+                </form>
+              )}
             </div>
 
           </div>
-        </div>
+        </SpotlightCard>
 
       </div>
     </section>

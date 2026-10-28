@@ -1,73 +1,90 @@
 import React from 'react';
 import { whyDifferentiators } from '../../data/whyTeamJugadu';
 import { FileCheck, Milestone, MessageSquare, KeyRound } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { SpotlightCard, type CardTheme } from '../ui/SpotlightCard';
+import { DevlofoxIconBox } from '../ui/DevlofoxIconBox';
 
 export const WhyTeamJugadu: React.FC = () => {
   const icons = [FileCheck, Milestone, MessageSquare, KeyRound];
+  const themes: CardTheme[] = ['orange', 'cyan', 'purple', 'emerald'];
+  const variants: Array<'orange' | 'cyan' | 'purple' | 'emerald'> = ['orange', 'cyan', 'purple', 'emerald'];
 
   return (
-    <section id="why-teamjugadu" className="py-20 sm:py-28 lg:py-32 bg-[#FFFFFF] border-b border-[#E3E8EF]">
-      <div className="max-w-content mx-auto px-5 sm:px-8 lg:px-12">
+    <section id="why-teamjugadu" className="py-24 sm:py-32 lg:py-36 bg-white border-b border-slate-200/80 relative overflow-hidden">
+      <div className="max-w-content mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
         
-        {/* Section Header with generous line-height */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 mb-3.5">
-            <span className="font-mono text-xs font-bold text-orange tracking-wider">10</span>
-            <span className="text-slate-300 text-xs">/</span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-navy font-mono">
-              Why TeamJugadu
-            </span>
-          </div>
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mb-16 sm:mb-20 space-y-3"
+        >
+          <span className="text-xs font-mono font-medium tracking-widest uppercase text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Operational Disciplines
+          </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-navy font-heading mb-4">
-            Professional Standards. <br className="hidden md:inline" />
-            <span className="text-orange">Without the Unnecessary Complexity.</span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0A1128] font-heading tracking-[-0.03em] leading-[1.1]">
+            Professional standards. <br />
+            <span className="text-gradient-orange">Without the agency overhead.</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            We believe good execution starts with clear expectations and ends with a delivery you understand and can manage. No agency buzzwords, no bait-and-switch.
+          <p className="text-base sm:text-lg text-slate-600 font-normal">
+            Execution starts with crystal-clear expectations and ends with clean, performant code you genuinely own and can scale.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Differentiators Editorial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        {/* 4 Differentiators Bento with Devlofox 3D Styling */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-7 lg:gap-8">
           {whyDifferentiators.map((diff, idx) => {
             const Icon = icons[idx];
+            const theme = themes[idx % themes.length];
+            const variant = variants[idx % variants.length];
+
             return (
-              <div
+              <SpotlightCard
                 key={diff.id}
-                className="bg-[#FAFBFD] rounded-3xl p-8 sm:p-10 border border-slate-200/90 hover:border-orange-border transition-all duration-300 shadow-subtle hover:shadow-card flex flex-col justify-between"
+                theme={theme}
+                className="p-8 sm:p-10 flex flex-col justify-between relative group"
               >
+                {/* 3D Watermark Number */}
+                <span className="absolute top-4 right-6 text-6xl font-extrabold font-mono text-slate-900/[0.04] select-none pointer-events-none group-hover:text-slate-900/[0.08] transition-colors">
+                  0{diff.number}
+                </span>
+
                 <div>
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-200/70">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-orange px-3 py-1 rounded-full bg-orange-pale border border-orange-border">
-                        STANDARD {diff.number}
-                      </span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-navy shadow-subtle">
-                      <Icon className="w-5 h-5 text-orange" />
-                    </div>
+                  <div className="flex items-center justify-between mb-6">
+                    <DevlofoxIconBox 
+                      icon={Icon} 
+                      variant={variant} 
+                      size="md" 
+                    />
+
+                    <span className="text-xs font-mono font-bold tracking-wider px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
+                      STANDARD 0{diff.number}
+                    </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold font-heading text-navy mb-3 leading-[1.3]">
+                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-[#0A1128] tracking-tight mb-3">
                     {diff.title}
                   </h3>
 
-                  <p className="text-base text-slate-600 leading-relaxed mb-6 font-medium">
-                    "{diff.description}"
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed mb-6 italic">
+                    &quot;{diff.description}&quot;
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-200/60 bg-white -mx-8 -mb-8 sm:-mx-10 sm:-mb-10 p-6 sm:p-8 rounded-b-3xl">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                <div className="pt-5 border-t border-slate-100">
+                  <span className="text-[10px] font-mono text-orange uppercase block mb-1 font-semibold tracking-wider">
                     Operational Proof
                   </span>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
                     {diff.operationalProof}
                   </p>
                 </div>
-              </div>
+              </SpotlightCard>
             );
           })}
         </div>

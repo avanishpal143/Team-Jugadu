@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { FloatingActionBar } from './components/ui/FloatingActionBar';
 
 // All 13 sections in the exact blueprint sequence
 import { Hero } from './components/sections/Hero';
@@ -11,7 +12,6 @@ import { SelectedWork } from './components/sections/SelectedWork';
 import { JugaduSprint } from './components/sections/JugaduSprint';
 import { TechnologyCapabilities } from './components/sections/TechnologyCapabilities';
 import { PricingPlans } from './components/sections/PricingPlans';
-import { FounderJourney } from './components/sections/FounderJourney';
 import { WhyTeamJugadu } from './components/sections/WhyTeamJugadu';
 import { TeamLeadership } from './components/sections/TeamLeadership';
 import { DiscoveryCTA } from './components/sections/DiscoveryCTA';
@@ -19,7 +19,7 @@ import { FAQ } from './components/sections/FAQ';
 
 export const App: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFBFD] text-[#172033] selection:bg-[#FF6B0B] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A] selection:bg-[#FF6B0B] selection:text-white relative">
       {/* Global Navigation */}
       <Navbar />
 
@@ -49,10 +49,7 @@ export const App: React.FC = () => {
         {/* 08. Choose Your Launch Plan */}
         <PricingPlans />
 
-        {/* 09. From MVP to a Brand People Trust */}
-        <FounderJourney />
-
-        {/* 10. Why TeamJugadu */}
+        {/* 09. Why TeamJugadu */}
         <WhyTeamJugadu />
 
         {/* 11. Meet the People Behind the Work */}
@@ -64,6 +61,9 @@ export const App: React.FC = () => {
         {/* 13. FAQs */}
         <FAQ />
       </main>
+
+      {/* Floating Action Bar */}
+      <FloatingActionBar />
 
       {/* Global Footer */}
       <Footer />

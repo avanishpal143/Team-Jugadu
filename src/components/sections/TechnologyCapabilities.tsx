@@ -1,115 +1,152 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { technologyGroups, mernStackNote } from '../../data/technologies';
-import { Code2, CheckCircle2, Cpu } from 'lucide-react';
+import { Code2, Cpu, Sparkles, Layers } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { SpotlightCard, type CardTheme } from '../ui/SpotlightCard';
+import { DevlofoxIconBox } from '../ui/DevlofoxIconBox';
 
 export const TechnologyCapabilities: React.FC = () => {
-  return (
-    <section id="technologies" className="py-20 sm:py-28 lg:py-32 bg-[#FAFBFD] border-b border-[#E3E8EF]">
-      <div className="max-w-content mx-auto px-5 sm:px-8 lg:px-12">
-        
-        {/* Section Header with generous line-height */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 mb-3.5">
-            <span className="font-mono text-xs font-bold text-orange tracking-wider">07</span>
-            <span className="text-slate-300 text-xs">/</span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-navy font-mono">
-              Technology &amp; Capabilities
-            </span>
-          </div>
+  const [selectedTag, setSelectedTag] = useState<string>('All');
+  const allTags = ['All', 'Core', 'Architecture', 'E-commerce', 'Database'];
 
-          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-navy font-heading mb-4">
-            The Right Stack for the <br className="hidden sm:inline" />
-            <span className="text-orange">Right Stage.</span>
+  const groupThemes: Record<string, { theme: CardTheme; variant: 'orange' | 'cyan' | 'purple'; icon: typeof Code2 }> = {
+    'modern-web': { theme: 'cyan', variant: 'cyan', icon: Code2 },
+    'full-stack': { theme: 'orange', variant: 'orange', icon: Cpu },
+    'design-systems': { theme: 'purple', variant: 'purple', icon: Sparkles },
+  };
+
+  return (
+    <section id="technologies" className="py-24 sm:py-32 lg:py-36 bg-white border-b border-slate-200/80 relative overflow-hidden">
+      <div className="max-w-content mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mb-12 sm:mb-16 space-y-3"
+        >
+          <span className="text-xs font-mono font-bold tracking-widest uppercase text-purple-700 bg-purple-50 px-3.5 py-1.5 rounded-full border border-purple-200 inline-block shadow-sm">
+            Production-Ready Architecture
+          </span>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0A1128] font-heading tracking-[-0.03em] leading-[1.1]">
+            The right stack for the <br />
+            <span className="text-gradient-orange">right product stage.</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            We choose technologies around your product requirements, scalability needs, budget and long-term maintenance, not trends alone. Clean, reliable, maintainable code.
+          <p className="text-base sm:text-lg text-slate-600 font-normal">
+            We select battle-tested technologies based on extreme velocity, developer ergonomics, and zero template lock-in.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 3 Accurate Technology Groups */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {technologyGroups.map((group) => (
-            <div
-              key={group.id}
-              className="bg-white rounded-3xl p-7 sm:p-9 border border-slate-200/90 shadow-subtle hover:border-orange-border hover:shadow-card transition-all duration-300 flex flex-col justify-between"
+        {/* Minimalist Filter Pills */}
+        <div className="flex flex-wrap gap-2 mb-10">
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+                selectedTag === tag 
+                  ? 'bg-[#0A1128] text-white shadow-md' 
+                  : 'bg-white border border-slate-200 text-slate-600 hover:text-[#0A1128] hover:bg-slate-50'
+              }`}
             >
-              <div>
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-orange">
-                    {group.badge}
-                  </span>
-                  <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-navy">
-                    <Code2 className="w-4 h-4 text-orange" />
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-bold font-heading text-navy leading-[1.3] mb-2">
-                  {group.category}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-                  {group.description}
-                </p>
-
-                {/* Technology Items */}
-                <div className="space-y-3 pt-2">
-                  {group.technologies.map((tech) => (
-                    <div
-                      key={tech.name}
-                      className="p-3.5 rounded-xl bg-[#FAFBFD] border border-slate-200/80 hover:border-orange-border transition-colors flex items-start justify-between gap-3 shadow-subtle"
-                    >
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-navy font-mono">
-                            {tech.name}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-500 leading-snug mt-1">
-                          {tech.description}
-                        </p>
-                      </div>
-
-                      <span className="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[10px] font-mono text-slate-600 font-bold whitespace-nowrap">
-                        {tech.tag}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-mono text-slate-500 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                <span>Production Tested Execution</span>
-              </div>
-            </div>
+              {tag}
+            </button>
           ))}
         </div>
 
-        {/* MERN Stack Accurate Definition Block */}
-        <div className="p-7 sm:p-9 rounded-3xl bg-navy text-white border border-slate-800 shadow-elevated">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-3">
-              <div className="flex items-center gap-2.5">
-                <Cpu className="w-5 h-5 text-orange" />
-                <span className="text-xs font-mono text-orange uppercase tracking-wider font-bold">
-                  {mernStackNote.title}
-                </span>
-              </div>
-              <h4 className="text-xl sm:text-2xl font-bold font-heading text-white leading-snug">
-                {mernStackNote.formula}
-              </h4>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                {mernStackNote.description}
-              </p>
-            </div>
+        {/* 3 Devlofox-Style 3D Category Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          {technologyGroups.map((group) => {
+            const config = groupThemes[group.id] || { theme: 'default', variant: 'orange', icon: Code2 };
+            const Icon = config.icon;
 
-            <div className="lg:col-span-4 p-5 rounded-2xl bg-slate-900 border border-slate-700/80 text-xs font-mono text-slate-400 space-y-2">
-              <div className="text-orange font-bold text-xs uppercase tracking-wider">Architecture Standard:</div>
-              <p className="leading-relaxed">We configure full-stack JavaScript architectures when speed of iteration and unified type safety are critical to the MVP launch.</p>
-            </div>
-          </div>
+            return (
+              <SpotlightCard
+                key={group.id}
+                theme={config.theme}
+                className="p-8 sm:p-9 flex flex-col justify-between group shadow-lg"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <DevlofoxIconBox 
+                      icon={Icon} 
+                      variant={config.variant} 
+                      size="md" 
+                    />
+
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 shadow-sm">
+                      {group.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-[#0A1128] tracking-tight mb-2">
+                    {group.category}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 font-sans">
+                    {group.description}
+                  </p>
+
+                  {/* Technology Items */}
+                  <div className="space-y-2.5 pt-1">
+                    {group.technologies
+                      .filter(t => selectedTag === 'All' || t.tag.toLowerCase().includes(selectedTag.toLowerCase()))
+                      .map((tech) => (
+                      <div
+                        key={tech.name}
+                        className="p-3.5 rounded-xl bg-white border border-slate-200/90 hover:border-orange-300 hover:shadow-sm transition-all flex items-center justify-between gap-3 group/item"
+                      >
+                        <div>
+                          <span className="text-xs font-mono font-bold text-[#0A1128] group-hover/item:text-orange transition-colors">
+                            {tech.name}
+                          </span>
+                          <p className="text-[11px] text-slate-500 mt-0.5 font-sans">
+                            {tech.description}
+                          </p>
+                        </div>
+
+                        <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-mono text-slate-600 whitespace-nowrap border border-slate-200 font-semibold">
+                          {tech.tag}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500 font-semibold">
+                  <span>Engineered In-House</span>
+                  <span className="text-emerald-700 font-bold">Production Ready</span>
+                </div>
+              </SpotlightCard>
+            );
+          })}
         </div>
+
+        {/* MERN Architecture Standard Note Card */}
+        <SpotlightCard theme="emerald" className="p-6 sm:p-8 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-2xl bg-emerald-100 text-emerald-800 border border-emerald-300">
+                <Layers className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xs font-mono text-emerald-800 font-extrabold uppercase tracking-wider block">
+                  {mernStackNote.formula}
+                </span>
+                <p className="text-sm sm:text-base font-bold text-[#0A1128] mt-0.5 font-sans">
+                  {mernStackNote.title}: {mernStackNote.description}
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-mono text-emerald-900 bg-white px-4 py-2 rounded-xl border border-emerald-200 self-start sm:self-auto whitespace-nowrap font-bold shadow-sm">
+              Full-Stack Guarantee
+            </span>
+          </div>
+        </SpotlightCard>
 
       </div>
     </section>

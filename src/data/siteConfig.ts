@@ -31,7 +31,6 @@ export const siteConfig = {
     { label: "The Sprint", href: "#sprint" },
     { label: "Stack", href: "#technologies" },
     { label: "Pricing", href: "#pricing" },
-    { label: "Founder Journey", href: "#journey" },
     { label: "FAQ", href: "#faq" },
   ]
 };
